@@ -1,10 +1,12 @@
 import {Component} from 'react'
+import Loader from 'react-loader-spinner'
 import './index.css'
 import LatestMatch from '../LatestMatch'
 import MatchCard from '../MatchCard'
+import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css'
 
 class TeamMatches extends Component {
-  state = {matchData: [], recentMatches: []}
+  state = {matchData: [], recentMatches: [], isLoading: true}
 
   componentDidMount() {
     this.getTheTeamMatchDetails()
@@ -24,7 +26,7 @@ class TeamMatches extends Component {
     const data = details.latest_match_details
     const latestMatchData = {
       competingTeam: data.competing_team,
-      teamLogo: data.competing_team_logo,
+      competingTeamLogo: data.competing_team_logo,
       date: data.date,
       firstInnings: data.first_innings,
       manOfTheMatch: data.man_of_the_match,
@@ -39,19 +41,38 @@ class TeamMatches extends Component {
       matchData: latestMatchData,
       teamBanner: details.team_banner_url,
       recentMatches: details.recent_matches,
+      isLoading: false,
     })
   }
 
-  render() {
+  renderTeamMatchPageContainer = () => {
     const {teamBanner, matchData, recentMatches} = this.state
-    console.log(recentMatches)
     return (
       <div className="teamMatch-page-container">
-        <img alt="asd" src={teamBanner} />
-        <h1>Latest Matchs</h1>
+        <img className="banner-image" alt="asd" src={teamBanner} />
+        <h1 className="latest-match-title">Latest Matches</h1>
         <LatestMatch matchData={matchData} />
-        <MatchCard recentMatches={recentMatches} />
+        <ul className="recent-match-container">
+          {recentMatches.map(recent => (
+            <MatchCard recent={recent} key={recent.id} />
+          ))}
+        </ul>
       </div>
+    )
+  }
+
+  render() {
+    const {isLoading} = this.state
+    return (
+      <>
+        {isLoading ? (
+          <div className="loader-container" testid="loader">
+            <Loader type="threedots" color="#1fff26" height={50} width={50} />
+          </div>
+        ) : (
+          this.renderTeamMatchPageContainer()
+        )}
+      </>
     )
   }
 }

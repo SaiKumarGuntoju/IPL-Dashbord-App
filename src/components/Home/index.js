@@ -1,28 +1,14 @@
 import {Component} from 'react'
+import Loader from 'react-loader-spinner'
 import TeamCard from '../TeamCard'
+import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css'
 import './index.css'
 
 class Home extends Component {
-  state = {teamsName: []}
+  state = {isLoading: false}
 
-  componentDidMount() {
-    this.getDashboardDetals()
-  }
-
-  getDashboardDetals = async () => {
-    const dashBoardUrl = 'https://apis.ccbp.in/ipl'
-    const options = {
-      method: 'GET',
-    }
-    const response = await fetch(dashBoardUrl, options)
-    const data = await response.json()
-    console.log(data)
-    this.setState({teamsName: data.teams})
-  }
-
-  render() {
-    const {teamsName} = this.state
-    return (
+  renderHomePage = () => (
+    <>
       <div className="home-page-container">
         <div className="home-page-title-container">
           <img
@@ -30,14 +16,27 @@ class Home extends Component {
             alt="ipl-logo"
             src="https://assets.ccbp.in/frontend/react-js/ipl-logo-img.png"
           />
-          <h1 className="home-page-title">IPL Dashbord</h1>
+          <h1 className="home-page-title"> IPL Dashboard</h1>
         </div>
         <ul className="team-card-body-container">
-          {teamsName.map(team => (
-            <TeamCard team={team} />
-          ))}
+          <TeamCard />
         </ul>
       </div>
+    </>
+  )
+
+  render() {
+    const {isLoading} = this.state
+    return (
+      <>
+        {isLoading ? (
+          <div testid="loader">
+            <Loader type="Oval" color="#ffffff" height={80} width={80} />
+          </div>
+        ) : (
+          this.renderHomePage()
+        )}
+      </>
     )
   }
 }

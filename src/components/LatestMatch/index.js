@@ -14,7 +14,7 @@ class LatestMatch extends Component {
         <img
           className="competing-team-logo"
           alt={matchData.competingTeam}
-          src={matchData.teamLogo}
+          src={matchData.competingTeamLogo}
         />
         <div className="innings-container">
           <p>First Innings</p>

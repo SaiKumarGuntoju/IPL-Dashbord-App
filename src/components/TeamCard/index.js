@@ -4,19 +4,43 @@ import {Component} from 'react'
 import './index.css'
 
 class TeamCard extends Component {
+  state = {teamsName: []}
+
+  componentDidMount() {
+    this.getDashboardDetails()
+  }
+
+  getDashboardDetails = async () => {
+    const dashBoardUrl = 'https://apis.ccbp.in/ipl'
+    const options = {
+      method: 'GET',
+    }
+    const response = await fetch(dashBoardUrl, options)
+    const data = await response.json()
+    const upadatedList = data.teams.map(each => ({
+      teamImageUrl: each.team_image_url,
+      teamNames: each.name,
+      id: each.id,
+    }))
+    this.setState({teamsName: upadatedList})
+  }
+
   render() {
-    const {team} = this.props
+    const {teamsName} = this.state
     return (
-      <Link to={`/team-matches/${team.id}`}>
-        <li className="team-card-container">
-          <img
-            className="team-card-logo"
-            alt="team"
-            src={team.team_image_url}
-          />
-          <h1 className="team-card-name">{team.name}</h1>
-        </li>
-      </Link>
+      <>
+        {teamsName.map(card => {
+          const {teamImageUrl, teamNames, id} = card
+          return (
+            <Link to={`/team-matches/${id}`}>
+              <li className="team-card-container">
+                <img className="team-card-logo" alt="team" src={teamImageUrl} />
+                <h1 className="team-card-name">{teamNames}</h1>
+              </li>
+            </Link>
+          )
+        })}
+      </>
     )
   }
 }

@@ -1,1 +1,55 @@
-/* Write your CSS here */
+.recent-image {
+  width: 200px;
+  height: 180px;
+}
+.recent-match-card {
+  list-style-type: none;
+  color: #ffffff;
+  background-color: #1e293b;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 20px;
+  font-family: 'Bree serif';
+
+  width: 339px;
+  height: 500px;
+  padding: 20px;
+  border-radius: 10px;
+}
+@media screen and (max-width: 768px) {
+  .recent-match-card {
+    width: 140px;
+    height: 300px;
+    margin: 10px;
+  }
+  .recent-image {
+    width: 60px;
+    height: 80px;
+  }
+}
+
+.match-title {
+  font-size: 30px;
+}
+
+.match-para {
+  font-size: 18px;
+  text-align: center;
+}
+.status {
+  font-size: 25px;
+}
+@media screen and (max-width: 768px) {
+  .match-title {
+    font-size: 13px;
+    text-align: center;
+  }
+  .match-para {
+    font-size: 9px;
+  }
+  .status {
+    font-size: 17px;
+  }
+}
